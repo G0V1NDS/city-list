@@ -13,11 +13,13 @@ import {
 } from "helpers/constants";
 import { mongoIdRegex, emailRegex } from "helpers/validators/regex";
 
-export const envVarsSchema = Joi.object({
-  NODE_ENV: Joi.string().allow(envTypes),
-})
-  .unknown()
-  .required();
+export const envVarsSchema = {
+  env: Joi.object({
+    NODE_ENV: Joi.any()
+      .valid(envTypes)
+      .required(),
+  }),
+};
 export const shortStr = Joi.string()
   .min(minShortStr)
   .max(maxShortStr);

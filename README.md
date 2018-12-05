@@ -30,12 +30,13 @@ Settings Sync: https://marketplace.visualstudio.com/items?itemName=Shan.code-set
 
 Chrome debugger: https://marketplace.visualstudio.com/items?itemName=msjsdiag.debugger-for-chrome
 
+
 ## Getting Started
 
 
-Make a copy of production.js as development.js and edit it as required
+Make a copy of production.json as development.json in src/config folder and edit it as required
 ```sh
-cp src/config/production.js src/config/development.js 
+cp src/config/production.json src/config/development.json 
 ```
 Install dependencies:
 
@@ -58,8 +59,9 @@ docker-compose up;
 ### Available Scripts
 
 - `npm start` - for starting development server
+- `npm run startD` - for starting development server with nodemon
 - `npm run build:start` - for packaging production build - it will build and start production enviroment
-- `npm run start:prod` - for starting production server with excisting build
+- `npm run start:prod` - for starting production server with existing build
 
 ##### Deployment
 
@@ -156,8 +158,6 @@ docker run -p 4040:4040 projectPath
 
 ### Dev Dependencies
 
-- [supertest - HTTP assertions made easy via superagent](https://www.npmjs.com/package/supertest)
-
 - [babel-cli - Babel command line](https://www.npmjs.com/package/babel-cli)
 
 - [babel-core - Babel compiler core](https://www.npmjs.com/package/babel-core)
@@ -178,13 +178,7 @@ docker run -p 4040:4040 projectPath
 
 - [babel-register - The require hook will bind itself to node's require and automatically compile files on the fly](https://www.npmjs.com/package/babel-register)
 
-- [chai - Chai is a BDD / TDD assertion library for node and the browser that can be delightfully paired with any javascript testing framework](https://www.npmjs.com/package/chai)
-
-- [coveralls - Coveralls.io support for node.js. Get the great coverage reporting of coveralls.io and add a cool coverage button ( like the one above ) to your README](https://www.npmjs.com/package/coveralls )
-
 - [cross-env - Run scripts that set and use environment variables across platforms](https://www.npmjs.com/package/cross-env)
-
-- [cz-conventional-changelog - Part of the commitizen family. Prompts for conventional changelog standard](https://www.npmjs.com/package/cz-conventional-changelog)
 
 - [eslint - ESLint is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code. In many ways, it is similar to JSLint and JSHint](https://www.npmjs.com/package/eslint)
 
@@ -196,10 +190,6 @@ docker run -p 4040:4040 projectPath
 
 - [eslint-plugin-prettier - Runs Prettier as an ESLint rule and reports differences as individual ESLint issues](https://www.npmjs.com/package/eslint-plugin-prettier)
 
-- [istanbul - A JS code coverage tool written in JS](https://www.npmjs.com/package/istanbul)
-
-- [mocha - Simple, flexible, fun JavaScript test framework for Node.js & The Browser](https://www.npmjs.com/package/mocha)
-
 - [nodemon - nodemon is a tool that helps develop node.js based applications by automatically restarting the node application when file changes in the directory are detected](https://www.npmjs.com/package/nodemon)
 
 - [prettier - Prettier is an opinionated code formatter](https://www.npmjs.com/package/prettier)
@@ -207,8 +197,8 @@ docker run -p 4040:4040 projectPath
 
 ### Future Inhancements
 
+- Add comments to all the files
 - Add unit test cases
 - Add CI/CD support
-- Add must read section in readme
+- Add "Must read" section in readme
 - CLI option to generate project skeleton
-- Add comments to all the files

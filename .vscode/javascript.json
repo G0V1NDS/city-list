@@ -1,0 +1,47 @@
+{
+	"Print to console": {
+		"prefix": "console",
+		"body": [
+			"console.log('$1');",
+			"$2"
+		],
+		"description": "Log output to console"
+	},
+	"logger error": {
+		"prefix": "logger",
+		"body": [
+			"logger.error('$1');",
+			"$2"
+		],
+		"description": "Log error to console and log file"
+	},
+	"logger info": {
+		"prefix": "logger",
+		"body": [
+			"logger.info('$1');",
+			"$2"
+		],
+		"description": "Log info to console and log file"
+	},
+	"eslint disable": {
+		"prefix": "eld",
+		"body": [
+			"/* eslint-disable */",
+		],
+		"description": "Log info to console and log file"
+	},
+	"eslint disable next line": {
+		"prefix": "eln",
+		"body": [
+			"/* eslint-disable-next-line ${1} */",
+		],
+		"description": "Log info to console and log file"
+	},
+	"eslint disable line": {
+		"prefix": "ell",
+		"body": [
+			"// eslint-disable-line ${1}",
+		],
+		"description": "Log info to console and log file"
+	},
+}

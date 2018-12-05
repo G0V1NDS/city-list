@@ -1,0 +1,19 @@
+/* fixed messages are stored in this file so that it can be reused */
+export const CREATED = "Created successfully.";
+export const SUCCESSFULL = "Successfully loaded";
+export const UPDATED = "Updated successfully.";
+export const DELETED = "Deleted successfully.";
+export const NOT_AUTHORIZED = "Not authorized.";
+export const NOT_FOUND = "Data not found.";
+export const DOES_NOT_EXIST = "Does not exist.";
+export const ALREADY_EXIST = "Already exist.";
+export const INVALID_DATA = "Invalid data";
+export const BAD_REQUEST = "Bad Request.";
+export const UNABALE_TO_PROCESS_REQUEST = "Unable to process your request.";
+export const DB_WRITE_FAILED = "Something went wrong!";
+export const UNKNOWN_ERROR = "Something went wrong. Please try again.";
+export const FILE_UPLOADED_SUCCESSFULLY = "File uploaded successfully.";
+export const INVALID_ACCESS_TOKEN = "Invalid access token.";
+export const INVALID_REFRESH_TOKEN = "Invalid refresh token.";
+export const INVALID_EMAIL_REFRESH_TOKEN = "Invalid email verification token.";
+export const TOKEN_EXPIRED = "Token expired.";

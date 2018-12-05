@@ -15,7 +15,7 @@
     "startD": "cross-env NODE_ENV=development;nodemon --legacy-watch -w . --exec \"babel-node ./server.js\"",
     "startP": "cross-env NODE_ENV=production;nodemon --legacy-watch -w . --exec \"babel-node ./server.js\"",
     "startT": "cross-env NODE_ENV=test;nodemon --legacy-watch -w . --exec \"babel-node ./server.js\"",
-    "postinstall": "./bin/symLinkHooks.sh & ./bin/installVSCodeExtensions.sh",
+    "postinstall": "./bin/installVSCodeExtensions.sh;./bin/symLinkHooks.sh",
     "checkGitHooks": "ls -la .git/hooks/ | grep '\\->'",
     "start:debug": "cross-env NODE_ENV=development;nodemon --inspect-brk=0.0.0.0 --legacy-watch -w . --exec \"babel-node ./server.js\"",
     "clean": "rm -rf dist && mkdir dist",

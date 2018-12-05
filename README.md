@@ -207,9 +207,8 @@ docker run -p 4040:4040 projectPath
 
 ### Future Inhancements
 
-- Add support for autocomplete for aliased imports
-- Add shared vscode settings
 - Add unit test cases
 - Add CI/CD support
 - Add must read section in readme
 - CLI option to generate project skeleton
+- Add comments to all the files

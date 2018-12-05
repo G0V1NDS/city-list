@@ -67,4 +67,4 @@ uploads/*
 static
 static/*
 
-config/development.json
+src/config/development.json

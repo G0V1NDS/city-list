@@ -14,25 +14,7 @@ System requirements:
 - NPM Version : 5.5.0
 - Docker: 18.09
 
-Recommanded VSCode extension:
-
-Babel ES6/ES7: https://marketplace.visualstudio.com/items?itemName=dzannotti.vscode-babel-coloring
-
-ESLint: https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint
-
-Prettier - Code formatter: https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode
-
-EditorConfig for VS Code: https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig
-
-GitLens â€” Git supercharged: https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens
-
-Settings Sync: https://marketplace.visualstudio.com/items?itemName=Shan.code-settings-sync
-
-Chrome debugger: https://marketplace.visualstudio.com/items?itemName=msjsdiag.debugger-for-chrome
-
-
 ## Getting Started
-
 
 Make a copy of production.json as development.json in src/config folder and edit it as required
 ```sh

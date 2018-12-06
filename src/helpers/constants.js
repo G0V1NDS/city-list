@@ -15,4 +15,4 @@ export const sortByKeys = [
   "updatedAt",
   "-updatedAt",
 ];
-export const defaultDocLimit = 50;
+export const defaultDocumentLimit = 50;

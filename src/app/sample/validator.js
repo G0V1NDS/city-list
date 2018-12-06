@@ -6,7 +6,7 @@ export default {
   // GET /api/samples/:id
   get: Joi.object({
     params: Joi.object({
-      id: validMongoId,
+      id: validMongoId.required(),
     }),
   }),
 

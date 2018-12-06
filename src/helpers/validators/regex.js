@@ -11,4 +11,3 @@ export const countryCodeRegex = /^\d{1,3}$/;
 export const timeRegex = /^([2][0-3]|[01]?[0-9])([.:][0-5][0-9])?$/;
 export const time24Regex = /^([01]\d|2[0-3]):?([0-5]\d)$/;
 export const mongoIdRegex = /^[0-9a-fA-F]{24}$/;
-export const idRegex = /^[0-9]+$/;

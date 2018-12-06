@@ -292,9 +292,6 @@ export const parseSortBy = sortBy => {
         [, sortKey] = key.split("-");
         desc = true;
       }
-      if (sortKey === "featured") {
-        sortKey = "filters.featured";
-      }
       sort[sortKey] = 1;
       if (desc) {
         sort[sortKey] = -1;

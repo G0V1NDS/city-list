@@ -30,54 +30,6 @@ async function findById({ id, errKey, autoFormat = true }) {
 }
 
 /**
- * Finding document with reference
- * @property {object} reference - The reference object {feedSource: x, key:y}.
- * @property {string} excludedId - document id to be excluded.
- * @property {string} errKey - key for which error object will be generated.
- * @property {boolean} autoFormat - false if formatted output not needed.
- * @returns {document}
- */
-async function findByReference({
-  reference,
-  excludedId,
-  errKey,
-  autoFormat = true,
-}) {
-  const res = await commonService.findByReference({
-    Model: Sample,
-    reference,
-    excludedId,
-    errKey,
-    autoFormat,
-  });
-  return res;
-}
-
-/**
- * Checking if document exist with reference
- * @property {object} reference - The reference object {feedSource: x, key:y}.
- * @property {string} excludedId - document id to be excluded.
- * @property {string} errKey - key for which error object will be generated.
- * @property {boolean} autoFormat - false if formatted output not needed.
- * @returns {boolean/document}
- */
-async function checkDuplicate({
-  reference,
-  excludedId,
-  errKey,
-  autoFormat = true,
-}) {
-  const res = await commonService.checkDuplicate({
-    Model: Sample,
-    reference,
-    excludedId,
-    errKey,
-    autoFormat,
-  });
-  return res;
-}
-
-/**
  * Creating document
  * @property {object} data - document properties.
  * @property {boolean} autoFormat - false if formatted output not needed.
@@ -134,8 +86,6 @@ async function removeById({ id, autoFormat = true }) {
 export default {
   find,
   findById,
-  findByReference,
-  checkDuplicate,
   create,
   update,
   updateExisting,

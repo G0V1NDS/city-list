@@ -7,7 +7,7 @@ import methodOverride from "method-override";
 import cors from "cors";
 import httpStatus from "http-status";
 import helmet from "helmet";
-import { ALREADY_EXIST } from "localization/en";
+import { ALREADY_EXIST, API_NOT_FOUND } from "localization/en";
 import logger from "utils/logger";
 import APIError from "utils/APIError";
 import routes from "../../route";
@@ -44,7 +44,7 @@ app.use("/api", routes);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-  const err = new APIError("API not found", httpStatus.NOT_FOUND, true);
+  const err = new APIError(httpStatus.NOT_FOUND, API_NOT_FOUND, null, true);
   return next(err);
 });
 
@@ -55,14 +55,15 @@ app.use((err, req, res, next) => {
   if (err.name === "MongoError") {
     switch (err.status) {
       case 11000:
-        customErr = new APIError(ALREADY_EXIST, 409, true);
+        customErr = new APIError(409, ALREADY_EXIST, null, true);
         break;
       default:
-        customErr = new APIError(err.message, err.status, err.isPublic);
+        customErr = new APIError(err.status, err.message, null, err.isPublic);
     }
   }
+  // if error is not an instanceOf APIError, convert it.
   if (!(err instanceof APIError)) {
-    customErr = new APIError(err.message, err.status, err.isPublic);
+    customErr = new APIError(err.status, err.message, err.data, err.isPublic);
   }
 
   const error = customErr || err;
@@ -71,11 +72,14 @@ app.use((err, req, res, next) => {
     message: error.isPublic ? error.message : httpStatus[error.status],
     status: error.status,
   };
-  // error handler, send stacktrace only during development
-  if (config.env === "development") {
+  if (error.data) {
+    obj.data = error.data;
+  }
+  // error handler, send stacktrace only during non production
+  if (config.env !== "production") {
     obj = { ...obj, stack: error.stack };
   }
-  res.status(error.status).json(obj);
+  return res.status(error.status).json(obj);
 });
 
 export default app;

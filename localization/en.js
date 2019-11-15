@@ -17,3 +17,5 @@ export const INVALID_ACCESS_TOKEN = "Invalid access token.";
 export const INVALID_REFRESH_TOKEN = "Invalid refresh token.";
 export const INVALID_EMAIL_REFRESH_TOKEN = "Invalid email verification token.";
 export const TOKEN_EXPIRED = "Token expired.";
+export const INVALID_CSV = "Invalid csv file.";
+export const API_NOT_FOUND = "API not found.";

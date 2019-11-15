@@ -13,9 +13,6 @@ const controlHandler = (promise, params) => async (req, res, next) => {
     if (error.isJoi && error.name === "ValidationError") {
       return res.status(400).json(FormatJOIError(error));
     }
-    if (error.status < 500) {
-      return res.status(error.status || 400).json(error);
-    }
     return next(error);
   }
 };

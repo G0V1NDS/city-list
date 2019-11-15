@@ -1,3 +1,4 @@
 {
-  "someCommmonProperty": true
+  "someCommmonProperty": true,
+  "uploadDir": "uploads/"
 }

@@ -16,3 +16,6 @@ export const sortByKeys = [
   "-updatedAt",
 ];
 export const defaultDocumentLimit = 50;
+export const csvHeader =
+  "Sl. No.,City/Town,Urban Status,State Code,State/Union territory*,District Code,District";
+export const maxCSVFileSize = 2000000;

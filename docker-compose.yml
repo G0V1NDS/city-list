@@ -37,8 +37,8 @@ services:
   #     - mongo
   #     - redis
   #   command: pm2 start --name "projectName" --no-daemon npm -- run start
-# volumes:
+volumes:
+  mongoData:
 # logData:
-# mongoData:
 # redisData:
 # nodeModules:

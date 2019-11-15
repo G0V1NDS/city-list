@@ -23,7 +23,12 @@ async function find({ query, autoFormat = true }) {
   // Getting documents with available filters
   const docs = await District.aggregate([
     { $match: filterCriteria },
-    { $unwind: "$towns" },
+    {
+      $unwind: {
+        path: "$towns",
+        preserveNullAndEmptyArrays: true,
+      },
+    },
     {
       $project: {
         _id: 0,

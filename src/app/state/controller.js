@@ -1,6 +1,13 @@
 import { FilterErrorAndThrow } from "helpers";
+import { parseCSV } from "utils/csvUtility";
+import APIError from "utils/APIError";
+import { csvHeader } from "src/helpers/constants";
+import logger from "utils/logger";
+import { INVALID_CSV, SUCCESSFULL } from "localization/en";
 import validator from "./validator";
 import service from "./service";
+import districtController from "../district/controller";
+import townController from "../town/controller";
 
 /**
  * Get documents list.
@@ -56,4 +63,90 @@ async function create(body) {
   return newDoc;
 }
 
-export default { list, create };
+// Initializing db from csv file
+async function initDB(file) {
+  const csvFile = file;
+  const header = csvHeader;
+  const data = await parseCSV({ csvFile, header });
+  if (data && data.error) {
+    throw new APIError(422, data.error, null, true);
+  }
+
+  // Formating csv row into doctor object
+  try {
+    const stateDict = {};
+    const districtDict = {};
+    const townDict = {};
+    data.forEach(row => {
+      const [
+        ,
+        town,
+        urbanStatus,
+        stateCode,
+        state,
+        districtCode,
+        district,
+      ] = row.split(",");
+      if (!stateDict[state]) {
+        stateDict[state] = { name: state, code: stateCode };
+      }
+      if (!districtDict[district]) {
+        districtDict[district] = {
+          name: district,
+          code: districtCode,
+          state,
+        };
+      }
+      if (!townDict[town]) {
+        townDict[town] = { name: town, urbanStatus, district };
+      }
+    });
+
+    const statePromises = [];
+    const districtPromises = [];
+    const townPromises = [];
+
+    // Inserting all states first
+    Object.keys(stateDict).forEach(state => {
+      statePromises.push(
+        create(stateDict[state]).catch(e => {
+          logger.error(e);
+        }),
+      );
+    });
+    await Promise.all(statePromises);
+
+    // Inserting all districts next
+    Object.keys(districtDict).forEach(district => {
+      districtPromises.push(
+        districtController.create(districtDict[district]).catch(e => {
+          logger.error(e);
+        }),
+      );
+    });
+    await Promise.all(districtPromises);
+
+    // Inserting all towns at last
+    Object.keys(townDict).forEach(town => {
+      townPromises.push(
+        townController.create(townDict[town]).catch(e => {
+          logger.error(e);
+        }),
+      );
+    });
+    await Promise.all(townPromises);
+
+    return {
+      status: 200,
+      message: SUCCESSFULL,
+    };
+  } catch (err) {
+    logger.error(err);
+    if (err.name === "SyntaxError") {
+      throw new APIError(422, INVALID_CSV, null, true);
+    }
+  }
+  return true;
+}
+
+export default { list, create, initDB };

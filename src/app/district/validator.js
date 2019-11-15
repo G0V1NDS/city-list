@@ -1,15 +1,8 @@
 import Joi from "joi";
 import { sortByKeys } from "helpers/constants";
-import { normalStr, validMongoId } from "helpers/validators";
+import { normalStr } from "helpers/validators";
 
 export default {
-  // GET /api/districts/:id
-  get: Joi.object({
-    params: Joi.object({
-      id: validMongoId.required(),
-    }),
-  }),
-
   // GET /api/districts
   list: Joi.object({
     query: Joi.object({
@@ -28,12 +21,6 @@ export default {
         .integer()
         .required(),
       state: normalStr.required(),
-    }),
-  }),
-  // DELETE /api/districts/:id
-  remove: Joi.object({
-    params: Joi.object({
-      id: validMongoId.required(),
     }),
   }),
 };

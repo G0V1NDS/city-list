@@ -3,27 +3,6 @@ import validator from "./validator";
 import service from "./service";
 
 /**
- * Get Document
- * @property {string} params.id - Document Id.
- * @returns {Object}
- */
-// eslint-disable-line
-async function get(params) {
-  // Validating param
-  const validParam = await validator.get.validate({ params });
-
-  const { id } = validParam.params;
-
-  // Getting document details
-  const existingDoc = await service.findById({ id });
-
-  // Throwing error if promise response has any error object
-  FilterErrorAndThrow(existingDoc);
-
-  return existingDoc;
-}
-
-/**
  * Get documents list.
  * @property {number} query.skip - Number of documents to be skipped.
  * @property {number} query.limit - Limit number of documents to be returned.
@@ -77,24 +56,4 @@ async function create(body) {
   return newDoc;
 }
 
-/**
- * Delete document.
- * @property {string} params.id - Document Id.
- * @returns {Object}
- */
-async function remove(params) {
-  // Validating param
-  const validParam = await validator.remove.validate({ params });
-
-  const { id } = validParam.params;
-
-  // Updating status to deleted
-  const deletedDoc = await service.removeById({ id });
-
-  // Throwing error if promise response has any error object
-  FilterErrorAndThrow(deletedDoc);
-
-  return deletedDoc;
-}
-
-export default { get, list, create, remove };
+export default { list, create };

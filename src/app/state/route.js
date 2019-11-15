@@ -11,11 +11,4 @@ router
   // list all states (accessed at GET /api/states)
   .get(c(controller.list, ({ query }) => [query]));
 
-router
-  .route("/:id([0-9a-fA-F]{24})")
-  // remove state (accessed at DELETE /api/states/:id)
-  .delete(c(controller.remove, ({ params }) => [params]))
-  // get state (accessed at GET /api/states/:id)
-  .get(c(controller.get, ({ params }) => [params]));
-
 export default router;

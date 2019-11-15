@@ -27,4 +27,4 @@ COPY --from=dependencies /app/package.json ./
 RUN npm install --only=production --ignore-scripts --unsafe-perm
 
 COPY --from=build /app/dist ./
-CMD ["pm2", "start", "--name", "projectName", "--no-daemon", "index.js]
+CMD ["pm2", "start", "--name", "city_list", "--no-daemon", "index.js]

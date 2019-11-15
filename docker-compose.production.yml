@@ -1,4 +1,4 @@
-version: '2'
+version: "2"
 
 services:
   # redis:
@@ -22,8 +22,8 @@ services:
       - ~/dump:/dump
     command: mongod --auth
   app:
-    image: "172.31.19.46:5000/scoring:0.0.3"
-    container_name: scoring
+    image: "172.31.19.46:5000/city_list:0.0.3"
+    container_name: city_list
     environment:
       - NODE_ENV=production
     volumes:
@@ -31,7 +31,7 @@ services:
     depends_on:
       - mongo
       # - redis
-    command: pm2 start --name "projectName" --no-daemon index.js
+    command: pm2 start --name "city_list" --no-daemon index.js
 
     # Expose ports [HOST:CONTAINER}
     ports:

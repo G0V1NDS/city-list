@@ -36,7 +36,7 @@ services:
   #   depends_on:
   #     - mongo
   #     - redis
-  #   command: pm2 start --name "projectName" --no-daemon npm -- run start
+  #   command: pm2 start --name "city_list" --no-daemon npm -- run start
 volumes:
   mongoData:
 # logData:

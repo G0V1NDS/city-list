@@ -9,7 +9,7 @@
     "port": "27017",
     "user": "root",
     "pass": "sw33tM0ng0",
-    "dbname": "projectName_production"
+    "dbname": "city_list_production"
   },
   "redis": {
     "host": "0.0.0.0",

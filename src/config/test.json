@@ -10,7 +10,7 @@
     "port": "27017",
     "user": "root",
     "pass": "root",
-    "dbname": "projectName-test"
+    "dbname": "city_list_test"
   },
   "redis": {
     "host": "139.59.13.141",

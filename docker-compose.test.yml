@@ -25,7 +25,7 @@ services:
     depends_on:
       - mongo
       # - redis
-    command: pm2 start --name "city_list" --no-daemon index.js
+    command: pm2 start --name "city_list" --no-daemon server.js
 
     # Expose ports [HOST:CONTAINER}
     ports:

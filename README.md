@@ -58,7 +58,7 @@ scp -rp dist/ user@dest:/path
 npm install --production
 
 # Use any process manager to start your services
-pm2 start dist/index.js
+pm2 start dist/server.js
 ```
 
 ##### Deployment with docker

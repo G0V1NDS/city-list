@@ -1,11 +1,15 @@
 import express from "express";
-import sampleRoutes from "./src/app/sample/route";
+import stateRoutes from "./src/app/state/route";
+import districtRoutes from "./src/app/district/route";
+import townRoutes from "./src/app/town/route";
 
 const router = express.Router();
 
 /** GET /health-check - Check service health */
 router.get("/health-check", (req, res) => res.send("OK"));
 
-// mount sample routes at /sample
-router.use("/samples", sampleRoutes);
+// mount state routes at /state
+router.use("/states", stateRoutes);
+router.use("/districts", districtRoutes);
+router.use("/towns", townRoutes);
 export default router;

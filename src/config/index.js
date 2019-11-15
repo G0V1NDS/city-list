@@ -12,7 +12,7 @@ console.log(`NODE_ENV value is : ${process.env.NODE_ENV}`);
 
 const infoMsg = `\n***********************************************
 \nPlease check README.md file for instructions.
-\nhttps://bitbucket.org/cartoonmango/node-mongoose/src/master/README.md
+\nhttps://github.com/G0V1NDS/city-list/blob/master/README.md
 \n***********************************************`;
 
 // Validating NODE_ENV with available environments

@@ -1,18 +1,33 @@
 import mongoose from "mongoose";
 import { statusTypes } from "helpers/constants";
 
-const modelSchema = new mongoose.Schema(
+const districtSchema = new mongoose.Schema(
   {
     name: {
       type: String,
       required: true,
     },
-    email: {
+    state: {
       type: String,
       required: true,
     },
-    username: {
+  },
+  { _id: false },
+);
+
+const modelSchema = new mongoose.Schema(
+  {
+    name: {
       type: String,
+      unique: true,
+      required: true,
+    },
+    urbanStatus: {
+      type: String,
+      required: true,
+    },
+    district: {
+      type: districtSchema,
       required: true,
     },
     status: {
@@ -43,7 +58,7 @@ modelSchema.method({});
  */
 modelSchema.statics = {};
 /**
- * @typedef Sample
+ * @typedef Town
  */
-export default mongoose.model("Sample", modelSchema);
-export const SampleSchema = modelSchema;
+export default mongoose.model("Town", modelSchema);
+export const TownSchema = modelSchema;

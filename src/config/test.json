@@ -24,7 +24,6 @@
   },
   "hashKey": "SomeRandomKey",
   "domainPrefix": "http://www.example.com",
-  "emailFrom" :"info@cartoonmango.com",
   "amazonAWS":{
     "accessKeyId":"",
     "secretAccessKey":"",

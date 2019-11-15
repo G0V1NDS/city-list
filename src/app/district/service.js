@@ -1,5 +1,6 @@
 import commonService from "helpers/services";
-import Sample from "./model";
+import { SUCCESSFULL } from "localization/en";
+import District from "./model";
 
 /**
  * Finding documents with provided query params
@@ -8,8 +9,45 @@ import Sample from "./model";
  * @returns {documents[]}
  */
 async function find({ query, autoFormat = true }) {
-  const res = await commonService.find({ Model: Sample, query, autoFormat });
-  return res;
+  const { q } = query;
+
+  // preparing query filters
+  const filterCriteria = {
+    status: "active",
+  };
+
+  if (q) {
+    filterCriteria.name = { $regex: `.*${q}.*`, $options: "i" };
+  }
+
+  // Getting documents with available filters
+  const docs = await District.aggregate([
+    { $match: filterCriteria },
+    { $unwind: "$towns" },
+    {
+      $project: {
+        _id: 0,
+        town: "$towns.name",
+        Urban_status: "$towns.urbanStatus",
+        State: "$state.name",
+        State_code: "$state.code",
+        District: "$name",
+        District_code: "$code",
+      },
+    },
+  ]);
+
+  // Returning formatted response if autoFormat true
+  if (autoFormat) {
+    return {
+      status: 200,
+      data: docs,
+      message: SUCCESSFULL,
+    };
+  }
+
+  // Otherwise returned db object
+  return docs;
 }
 
 /**
@@ -21,8 +59,44 @@ async function find({ query, autoFormat = true }) {
  */
 async function findById({ id, errKey, autoFormat = true }) {
   const res = await commonService.findById({
-    Model: Sample,
+    Model: District,
     id,
+    errKey,
+    autoFormat,
+  });
+  return res;
+}
+
+/**
+ * Finding document with name
+ * @property {string} name - name.
+ * @property {string} errKey - key for which error object will be generated.
+ * @property {boolean} autoFormat - false if formatted output not needed.
+ * @returns {document}
+ */
+async function findByName({ name, errKey, autoFormat = true }) {
+  const res = await commonService.findByName({
+    Model: District,
+    name,
+    errKey,
+    autoFormat,
+  });
+  return res;
+}
+
+/**
+ * Checking if document exist with same name
+ * @property {string} name - name
+ * @property {string} excludedId - document id to be excluded.
+ * @property {string} errKey - key for which error object will be generated.
+ * @property {boolean} autoFormat - false if formatted output not needed.
+ * @returns {boolean/document}
+ */
+async function checkDuplicate({ name, excludedId, errKey, autoFormat = true }) {
+  const res = await commonService.checkDuplicate({
+    Model: District,
+    name,
+    excludedId,
     errKey,
     autoFormat,
   });
@@ -36,7 +110,7 @@ async function findById({ id, errKey, autoFormat = true }) {
  * @returns {document}
  */
 async function create({ data, autoFormat = true }) {
-  const res = await commonService.create({ Model: Sample, data, autoFormat });
+  const res = await commonService.create({ Model: District, data, autoFormat });
   return res;
 }
 
@@ -65,7 +139,7 @@ async function updateExisting({ data, existingDoc, autoFormat = true }) {
  */
 async function update({ data, filterCriteria, autoFormat = true }) {
   const res = await commonService.update({
-    Model: Sample,
+    Model: District,
     data,
     filterCriteria,
     autoFormat,
@@ -80,7 +154,11 @@ async function update({ data, filterCriteria, autoFormat = true }) {
  * @returns {document}
  */
 async function removeById({ id, autoFormat = true }) {
-  const res = await commonService.removeById({ Model: Sample, id, autoFormat });
+  const res = await commonService.removeById({
+    Model: District,
+    id,
+    autoFormat,
+  });
   return res;
 }
 export default {
@@ -90,4 +168,6 @@ export default {
   update,
   updateExisting,
   removeById,
+  findByName,
+  checkDuplicate,
 };

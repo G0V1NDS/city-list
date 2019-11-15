@@ -1,46 +1,34 @@
 import Joi from "joi";
 import { sortByKeys } from "helpers/constants";
-import { normalStr, validMongoId, email } from "helpers/validators";
+import { normalStr, validMongoId } from "helpers/validators";
 
 export default {
-  // GET /api/samples/:id
+  // GET /api/towns/:id
   get: Joi.object({
     params: Joi.object({
       id: validMongoId.required(),
     }),
   }),
 
-  // GET /api/samples
+  // GET /api/towns
   list: Joi.object({
     query: Joi.object({
       sortBy: Joi.array().items(Joi.any().valid(sortByKeys)),
       limit: Joi.number().integer(),
       skip: Joi.number().integer(),
+      q: normalStr,
     }),
   }),
 
-  // POST /api/samples
+  // POST /api/towns
   create: Joi.object({
     body: Joi.object({
       name: normalStr.required(),
-      email: email.required(),
-      username: normalStr.required(),
+      urbanStatus: normalStr.required(),
+      district: normalStr.required(),
     }),
   }),
-
-  // PUT /api/samples/:id
-  update: Joi.object({
-    params: Joi.object({
-      id: validMongoId.required(),
-    }),
-    body: Joi.object({
-      name: normalStr,
-      email,
-      username: normalStr,
-    }),
-  }),
-
-  // DELETE /api/samples/:id
+  // DELETE /api/towns/:id
   remove: Joi.object({
     params: Joi.object({
       id: validMongoId.required(),

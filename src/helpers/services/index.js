@@ -6,6 +6,7 @@ import {
   CREATED,
   UPDATED,
   DELETED,
+  ALREADY_EXIST,
 } from "localization/en";
 
 /**
@@ -96,6 +97,109 @@ async function findById({ Model, id, errKey, autoFormat = true }) {
     ];
   }
   return errObj;
+}
+
+/**
+ * Finding document with name
+ * @property {object} Model - Mongoose model object.
+ * @property {string} name - name.
+ * @property {string} errKey - key for which error object will be generated.
+ * @property {boolean} autoFormat - false if formatted output not needed.
+ * @returns {document}
+ */
+async function findByName({ Model, name, errKey, autoFormat = true }) {
+  // Getting document with name
+  const existingDoc = await Model.findOne({
+    name,
+    status: "active",
+  });
+
+  // Returning doc if exist
+  if (existingDoc !== null) {
+    // Returning formatted response if autoFormat true
+    if (autoFormat) {
+      return {
+        status: 200,
+        data: existingDoc,
+        message: SUCCESSFULL,
+      };
+    }
+
+    // Otherwise returned db object
+    return existingDoc;
+  }
+
+  // Returning error obj if does not exist
+  const errObj = {
+    error: {
+      status: 404,
+      message: NOT_FOUND,
+    },
+  };
+
+  if (errKey) {
+    errObj.error.data = [
+      {
+        [errKey]: NOT_FOUND,
+      },
+    ];
+  }
+  return errObj;
+}
+
+/**
+ * Checking if document exist with reference
+ * @property {object} Model - Mongoose model object.
+ * @property {string} name - name
+ * @property {string} excludedId - document id to be excluded.
+ * @property {string} errKey - key for which error object will be generated.
+ * @property {boolean} autoFormat - false if formatted output not needed.
+ * @returns {boolean/document}
+ */
+async function checkDuplicate({
+  Model,
+  name,
+  excludedId,
+  errKey,
+  autoFormat = true,
+}) {
+  // Checking if doc exist
+  const filterCriteria = {
+    name,
+    status: "active",
+  };
+  if (excludedId) {
+    filterCriteria._id = { $ne: excludedId }; // eslint-disable-line no-underscore-dangle
+  }
+
+  // Getting document with reference
+  const existingRefDoc = await Model.findOne(filterCriteria);
+
+  if (existingRefDoc) {
+    // Returning formatted response if autoFormat true
+    if (autoFormat) {
+      const errObj = {
+        error: {
+          status: 409,
+          message: ALREADY_EXIST,
+          conflictKey: existingRefDoc.id,
+          conflictObj: existingRefDoc,
+        },
+      };
+      if (errKey) {
+        errObj.error.data = [
+          {
+            [errKey]: "Reference with same source and key already exist",
+          },
+        ];
+      }
+      return errObj;
+    }
+
+    // Otherwise returned db object
+    return existingRefDoc;
+  }
+  return true;
 }
 
 /**
@@ -244,6 +348,8 @@ async function removeById({ Model, id, autoFormat = true }) {
 export default {
   find,
   findById,
+  findByName,
+  checkDuplicate,
   create,
   update,
   updateExisting,

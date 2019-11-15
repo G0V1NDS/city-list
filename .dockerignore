@@ -50,8 +50,6 @@ backup
 # .env
 .env
 
-# SAMPLE
-sample
 uploads
 uploads/*
 static

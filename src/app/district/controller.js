@@ -1,6 +1,8 @@
 import { FilterErrorAndThrow } from "helpers";
+import logger from "utils/logger";
 import validator from "./validator";
 import service from "./service";
+import stateService from "../state/service";
 
 /**
  * Get Document
@@ -28,6 +30,7 @@ async function get(params) {
  * @property {number} query.skip - Number of documents to be skipped.
  * @property {number} query.limit - Limit number of documents to be returned.
  * @property {array} query.sortBy - keys to use to record sorting.
+ * @property {string} query.q - String for regex match
  * @returns {Object}
  */
 async function list(query) {
@@ -51,8 +54,34 @@ async function create(body) {
   const validData = await validator.create.validate({ body });
 
   const validBody = validData.body;
+  const promiseList = [];
 
-  // TODO: Validate body, if anything needs to be checked with model
+  // Validating body, if anything needs to be checked with model
+  // Checking if district exists with same name
+  promiseList[0] = service.checkDuplicate({
+    name: validBody.name,
+    errKey: "body,name",
+  });
+
+  // Checking if state exist
+  promiseList[1] = stateService.findByName({
+    name: validBody.state,
+    errKey: "body,state",
+    autoFormat: false,
+  });
+
+  // Waiting for promises to finish
+  const promiseListResp = await Promise.all(promiseList);
+
+  // Throwing error if promise response has any error object
+  FilterErrorAndThrow(promiseListResp);
+
+  const [, state] = promiseListResp;
+
+  validBody.state = {
+    name: state.name,
+    code: state.code,
+  };
 
   // Creating new document
   const newDoc = await service.create({ data: validBody });
@@ -60,46 +89,27 @@ async function create(body) {
   // Throwing error if promise response has any error object
   FilterErrorAndThrow(newDoc);
 
-  return newDoc;
-}
-
-/**
- * Update existing document
- * @property {string} params.id - document Id.
- * @property {string} body.name - The name of document.
- * @property {string} body.email - The email of document.
- * @property {string} body.username - The username of document.
- * @returns {Object}
- */
-async function update(params, body) {
-  // Validating param
-  const validParam = await validator.update.validate({ params });
-
-  const { id } = validParam.params;
-
-  // Getting document object to be updated
-  const existingDoc = await service.findById({ id, autoFormat: false });
-
-  // Throwing error if promise response has any error object
-  FilterErrorAndThrow(existingDoc);
-
-  // Validating body
-  const validData = await validator.update.validate({ body });
-
-  const validBody = validData.body;
-
-  // TODO: Validate body, if anything needs to be checked with model
+  // Checking if object already exist in district
+  if (!state.districts.find(district => newDoc.data.name === district.state)) {
+    state.districts.push({
+      name: newDoc.data.name,
+      code: newDoc.data.code,
+    });
+  }
 
   // Updating new data to document
-  const savedDoc = await service.updateExisting({
-    existingDoc,
-    data: validBody,
+  const newStateDoc = await stateService.updateExisting({
+    existingDoc: state,
+    autoFormat: false,
   });
 
-  // Throwing error if promise response has any error object
-  FilterErrorAndThrow(savedDoc);
+  if (newStateDoc.error) {
+    logger.error("Failed to add District info to state list");
+  } else {
+    logger.info("District info added to state list");
+  }
 
-  return savedDoc;
+  return newDoc;
 }
 
 /**
@@ -122,4 +132,4 @@ async function remove(params) {
   return deletedDoc;
 }
 
-export default { get, list, create, update, remove };
+export default { get, list, create, remove };

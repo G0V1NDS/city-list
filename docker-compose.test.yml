@@ -1,14 +1,6 @@
 version: "2"
 
 services:
-  # redis:
-  #   image: redis:alpine
-  #   container_name: redis
-  #   ports:
-  #     - "6379:6379"
-  #   command: redis-server --appendonly yes
-  #   volumes:
-  #     - redisData: /data
   mongo:
     image: "mongo:3.4"
     container_name: mongo
@@ -21,6 +13,8 @@ services:
       - mongoData:/data/db
       - ~/dump:/dump
     command: mongod --auth
+    networks:
+      - custom
   app:
     build:
       context: .
@@ -36,6 +30,10 @@ services:
     # Expose ports [HOST:CONTAINER}
     ports:
       - "4040:4040"
+    networks:
+      - custom
 volumes:
   mongoData:
-  # redisData:
+networks:
+  custom:
+    external: true
